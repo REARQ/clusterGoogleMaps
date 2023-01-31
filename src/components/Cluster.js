@@ -36,9 +36,9 @@ const Cluster = () => {
 
   const options = {
     imagePath:
-      './icons', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
+      './markerclusterer/m', // so you must have m1.png, m2.png, m3.png, m4.png, m5.png and m6.png in that folder
   }
-
+  
   return(
   <MarkerClusterer  options={options}>
     {(clusterer) =>
