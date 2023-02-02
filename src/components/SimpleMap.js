@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import Overlay from "./Overlay";
 
@@ -20,7 +20,7 @@ const SimpleMap = () => {
 
   const [theMap, setTheMap] = useState(null);
   const [theBounds, setTheBounds] = useState(null);
-  const [theZoom, setTheZoom] = useState(null);
+  const [theZoom, setTheZoom] = useState(10);
 
   const onBoundChange = useCallback(
     function callback(zoom) {
@@ -57,7 +57,7 @@ const SimpleMap = () => {
         onBoundsChanged={onBoundChange}
         onLoad={onLoad}
       >
-        <Overlay bounds={theBounds} zoom={theZoom} />
+        <Overlay bounds={theBounds} zoom={theZoom}/>
         {/* <Markers/> */}
 
         {/* <Cluster/> */}

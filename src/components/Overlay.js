@@ -8,6 +8,7 @@ import useSupercluster from "use-supercluster";
 const Overlay = (props) => {
   const map = useGoogleMap();
 
+
   // Simulate the vehicles/telemetry array
   const vehicles = [
     {
@@ -17,11 +18,27 @@ const Overlay = (props) => {
       lng: 11.994002083323961,
     },
     { id: "other", heading: 93, lat: 57.73542, lng: 11.8945 },
+    {
+      id: "Helena",
+      heading: 52,
+      lat: 60.735416128751666,
+      lng: 11.994002083323961,
+    },
+    {
+      id: "David",
+      heading: 52,
+      lat: 61.735416128751666,
+      lng: 11.994002083323961,
+    },
   ];
 
   const points = vehicles.map((vehicle) => ({
     type: "Feature",
-    properties: { cluster: false, vehicleId: vehicle.id, heading: vehicle.heading },
+    properties: {
+      cluster: false,
+      vehicleId: vehicle.id,
+      heading: vehicle.heading,
+    },
     geometry: {
       type: "Point",
       coordinates: [parseFloat(vehicle.lng), parseFloat(vehicle.lat)],
@@ -32,7 +49,7 @@ const Overlay = (props) => {
     points: points,
     bounds: props.bounds,
     zoom: props.zoom,
-    options: { radius: 75, maxZoom: 30 },
+    options: { radius: 75, maxZoom: 20 },
   });
 
   return map ? (
@@ -52,7 +69,17 @@ const Overlay = (props) => {
               lng: longitude,
             }}
           >
-            <span style={{ fontSize: "40px" }}>C-{pointCount}</span>
+            <div
+              style={{
+                fontSize: `30px`
+              }}
+              onClick={() => {const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id), 20)
+                map.setZoom(expansionZoom);
+                map.panTo({lat: latitude, lng: longitude});
+            }}
+            >
+              🤖{pointCount}
+            </div>
           </OverlayView>
         ) : (
           <OverlayView
@@ -63,7 +90,9 @@ const Overlay = (props) => {
               lng: longitude,
             }}
           >
-            <span style={{ fontSize: "40px" }}>😎{cluster.properties.vehicleId} - {cluster.properties.heading}</span>
+            <span style={{ fontSize: "40px" }}>
+              😎{cluster.properties.vehicleId} - {cluster.properties.heading}
+            </span>
           </OverlayView>
         );
       })}
